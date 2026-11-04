@@ -1,0 +1,90 @@
+﻿@model IEnumerable<gateflow.Models.User>
+
+@{
+    ViewData["Title"] = "Manage Students";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-heading heading-between">
+    <div>
+        <span class="eyebrow">STUDENT DIRECTORY</span>
+        <h1>Manage Students</h1>
+        <p>View, search and manage registered students.</p>
+    </div>
+    <span class="count-chip">@Model.Count() Students</span>
+</div>
+
+<form asp-action="Students"
+      method="get"
+      class="search-form">
+
+    <input type="search"
+           name="search"
+           value="@ViewBag.Search"
+           placeholder="Search by name or email" />
+
+    <button type="submit" class="btn-primary">Search</button>
+
+    <a asp-action="Students" class="btn-outline">Clear</a>
+</form>
+
+<div class="admin-table-card">
+    <div class="table-scroll">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td>#ST-@student.UserId</td>
+                        <td><strong>@student.FullName</strong></td>
+                        <td>@student.Email</td>
+                        <td>@student.Department</td>
+                        <td>@student.Phone</td>
+                        <td>
+                            <div class="action-row">
+                                <a asp-action="EditStudent"
+                                   asp-route-id="@student.UserId"
+                                   class="small-btn edit">
+                                    Edit
+                                </a>
+
+                                <form asp-action="DeleteStudent"
+                                      asp-route-id="@student.UserId"
+                                      method="post"
+                                      onsubmit="return confirm('Delete this student?')">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="small-btn reject">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="empty-cell">
+                            No students found.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

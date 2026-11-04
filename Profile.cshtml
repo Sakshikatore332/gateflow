@@ -1,0 +1,64 @@
+﻿@model gateflow.Models.User
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="page-heading">
+    <span class="eyebrow">STUDENT INFORMATION</span>
+    <h1>My Profile</h1>
+    <p>Your registered account details.</p>
+</div>
+
+<div class="form-card">
+
+    <div class="profile-header">
+        <div class="profile-avatar">
+            @Model.FullName.Substring(0, 1).ToUpper()
+        </div>
+
+        <div>
+            <h2>@Model.FullName</h2>
+            <p>@Model.Department Student</p>
+        </div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span>Student ID</span>
+            <strong>#ST-@Model.UserId</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Full Name</span>
+            <strong>@Model.FullName</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Email Address</span>
+            <strong>@Model.Email</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Phone Number</span>
+            <strong>@Model.Phone</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Department</span>
+            <strong>@Model.Department</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Account Role</span>
+            <strong>@Model.Role</strong>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Dashboard"
+           class="btn-primary">← Dashboard</a>
+    </div>
+</div>
+

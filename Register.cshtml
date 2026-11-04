@@ -1,0 +1,129 @@
+﻿@model GateFlow.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Student Registration";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <title>GateFlow | Register</title>
+    <link rel="stylesheet"
+          href="~/css/gateflow-auth.css" />
+</head>
+<body>
+    <div class="auth-page">
+
+        <div class="brand-panel">
+            <div class="brand-logo">GF<span>.</span></div>
+
+            <div class="brand-content">
+                <span class="eyebrow">CAMPUS ACCESS SYSTEM</span>
+                <h1>Every exit,<br /><em>accounted for.</em></h1>
+                <p>
+                    A smarter way to manage campus movement,
+                    gate passes, and student safety.
+                </p>
+            </div>
+
+            <div class="brand-footer">
+                GATEFLOW / STUDENT PORTAL
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <div class="form-container">
+                <span class="form-tag">NEW STUDENT</span>
+                <h2>Create your account</h2>
+                <p class="form-subtitle">
+                    Register to request and track gate passes.
+                </p>
+
+                <form asp-controller="Account"
+                      asp-action="Register"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="error-text"></div>
+
+                    <div class="field">
+                        <label asp-for="FullName">Full Name</label>
+                        <input asp-for="FullName"
+                               placeholder="Enter full name" />
+                        <span asp-validation-for="FullName"
+                              class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label asp-for="Email">Email Address</label>
+                        <input asp-for="Email"
+                               placeholder="student@example.com" />
+                        <span asp-validation-for="Email"
+                              class="error-text"></span>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label asp-for="Department">Department</label>
+                            <select asp-for="Department">
+                                <option value="">Select</option>
+                                <option value="MCA">MCA</option>
+                                <option value="MBA">MBA</option>
+                                <option value="BCA">BCA</option>
+                                <option value="BBA">BBA</option>
+                                <option value="Engineering">Engineering</option>
+                            </select>
+                            <span asp-validation-for="Department"
+                                  class="error-text"></span>
+                        </div>
+
+                        <div class="field">
+                            <label asp-for="Phone">Phone Number</label>
+                            <input asp-for="Phone"
+                                   placeholder="10-digit number" />
+                            <span asp-validation-for="Phone"
+                                  class="error-text"></span>
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label asp-for="Password">Password</label>
+                            <input asp-for="Password"
+                                   placeholder="Min. 8 characters" />
+                            <span asp-validation-for="Password"
+                                  class="error-text"></span>
+                        </div>
+
+                        <div class="field">
+                            <label asp-for="ConfirmPassword">
+                                Confirm Password
+                            </label>
+                            <input asp-for="ConfirmPassword"
+                                   placeholder="Repeat password" />
+                            <span asp-validation-for="ConfirmPassword"
+                                  class="error-text"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        Create Account &rarr;
+                    </button>
+                </form>
+
+                <p class="switch-text">
+                    Already registered?
+                    <a asp-controller="Account"
+                       asp-action="Login">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<gateflow.Models.GatePass>
+
+@{
+    ViewData["Title"] = "Pending Requests";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-heading heading-between">
+    <div>
+        <span class="eyebrow">APPROVAL QUEUE</span>
+        <h1>Pending Gate Passes</h1>
+        <p>Review student requests and make decisions.</p>
+    </div>
+    <span class="count-chip">@Model.Count() Pending</span>
+</div>
+
+<div class="admin-table-card">
+    <div class="table-scroll">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Pass ID</th>
+                    <th>Student</th>
+                    <th>Department</th>
+                    <th>Reason</th>
+                    <th>Exit Date</th>
+                    <th>Exit Time</th>
+                    <th>Expected Return</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pass in Model)
+                {
+                    <tr>
+                        <td>#GF-@pass.PassId</td>
+                        <td>@pass.User.FullName</td>
+                        <td>@pass.User.Department</td>
+                        <td>@pass.Reason</td>
+                        <td>@pass.OutDate.ToString("dd MMM yyyy")</td>
+                        <td>@pass.OutTime.ToString("HH:mm")</td>
+                        <td>
+                            @pass.ExpectedReturnTime.ToString("dd MMM, hh:mm tt")
+                        </td>
+                        <td>
+                            <div class="action-row">
+                                <form asp-action="Approve"
+                                      asp-route-id="@pass.PassId"
+                                      method="post"
+                                      onsubmit="return confirm('Approve this gate pass?')">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="small-btn approve">
+                                        Approve
+                                    </button>
+                                </form>
+
+                                <a asp-action="Review"
+                                   asp-route-id="@pass.PassId"
+                                   class="small-btn reject">
+                                    Reject
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="8" class="empty-cell">
+                            No pending requests. You're all caught up!
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

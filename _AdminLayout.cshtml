@@ -1,0 +1,120 @@
+﻿@{
+    string action = ViewContext.RouteData.Values["action"]?
+        .ToString() ?? "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] | GateFlow Admin</title>
+    <link rel="stylesheet"
+          href="~/css/gateflow-admin.css"
+          asp-append-version="true" />
+</head>
+<body>
+    <div class="admin-shell">
+
+        <aside class="admin-sidebar">
+            <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="admin-brand">
+                <span class="brand-mark">G</span>
+                GateFlow<span class="brand-accent">.</span>
+            </a>
+
+            <div class="nav-caption">ADMINISTRATION</div>
+
+            <nav class="admin-nav">
+                <a asp-controller="Admin"
+                   asp-action="Dashboard"
+                   class="@(action == "Dashboard" ? "active" : "")">
+                    ◫ <span>Overview</span>
+                </a>
+
+                <a asp-controller="Admin"
+                   asp-action="PendingRequests"
+                   class="@(action == "PendingRequests" || action == "Review" ? "active" : "")">
+                    ◷ <span>Pending Requests</span>
+                </a>
+
+                <a asp-controller="Admin"
+                   asp-action="AllPasses"
+                   class="@(action == "AllPasses" ? "active" : "")">
+                    ▤ <span>All Gate Passes</span>
+                </a>
+
+                <a asp-controller="Admin"
+                   asp-action="Students"
+                   class="@(action == "Students" || action == "EditStudent" ? "active" : "")">
+                    ♙ <span>Manage Students</span>
+                </a>
+
+                <a asp-controller="Admin"
+                   asp-action="Profile"
+                   class="@(action == "Profile" ? "active" : "")">
+                    ◉ <span>My Profile</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-foot">
+                <div class="admin-user">
+                    <div class="admin-avatar">A</div>
+                    <div>
+                        <strong>@User.Identity?.Name</strong>
+                        <small>Administrator</small>
+                    </div>
+                </div>
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="signout-btn">
+                        Sign Out
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-topbar">
+                <div>
+                    <span class="top-caption">GATEFLOW / ADMIN PORTAL</span>
+                    <h3>@ViewData["Title"]</h3>
+                </div>
+
+                <a asp-controller="Admin"
+                   asp-action="Profile"
+                   class="admin-account-link">
+                    <span class="online-dot"></span>
+                    @User.Identity?.Name
+                </a>
+            </header>
+
+            <div class="admin-content">
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="message success">
+                        ✓ @TempData["Success"]
+                    </div>
+                }
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="message error">
+                        @TempData["Error"]
+                    </div>
+                }
+
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<gateflow.Models.GatePass>
+
+@{
+    ViewData["Title"] = "My Gate Passes";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+    string selected = ViewBag.SelectedStatus ?? "";
+}
+
+<div class="page-heading heading-flex">
+    <div>
+        <span class="eyebrow">REQUEST HISTORY</span>
+        <h1>My Gate Passes</h1>
+        <p>Track and manage all your submitted requests.</p>
+    </div>
+
+    <a asp-action="Apply" class="btn-primary">
+        + New Request
+    </a>
+</div>
+
+<div class="filter-bar">
+    <a asp-action="MyPasses"
+       class="filter-pill @(selected == "" ? "selected" : "")">
+        All
+    </a>
+
+    @foreach (var status in new[]
+        { "Pending", "Approved", "Rejected", "Cancelled" })
+    {
+        <a asp-action="MyPasses"
+           asp-route-status="@status"
+           class="filter-pill @(selected == status ? "selected" : "")">
+            @status
+        </a>
+    }
+</div>
+
+<div class="table-card">
+    <div class="table-scroll">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Pass ID</th>
+                    <th>Reason</th>
+                    <th>Exit Date</th>
+                    <th>Exit Time</th>
+                    <th>Return</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var pass in Model)
+                    {
+                        <tr>
+                            <td><strong>#GF-@pass.PassId</strong></td>
+                            <td>@pass.Reason</td>
+                            <td>@pass.OutDate.ToString("dd MMM yyyy")</td>
+                            <td>@pass.OutTime.ToString("HH:mm")</td>
+                            <td>
+                                @pass.ExpectedReturnTime.ToString("dd MMM, hh:mm tt")
+                            </td>
+                            <td>
+                                <span class="status @pass.Status.ToLower()">
+                                    @pass.Status
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-group">
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@pass.PassId"
+                                       class="action-link">
+                                        Details
+                                    </a>
+
+                                    @if (pass.Status == "Pending")
+                                    {
+                                        <a asp-action="Edit"
+                                           asp-route-id="@pass.PassId"
+                                           class="action-link edit-link">
+                                            Edit
+                                        </a>
+
+                                        <form asp-action="Cancel"
+                                              asp-route-id="@pass.PassId"
+                                              method="post"
+                                              onsubmit="return confirm('Cancel this gate pass?')">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit"
+                                                    class="action-link danger-link">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    }
+
+                                    @if (pass.Status == "Cancelled" ||
+                                                                pass.Status == "Rejected")
+                                    {
+                                        <form asp-action="Delete"
+                                              asp-route-id="@pass.PassId"
+                                              method="post"
+                                              onsubmit="return confirm('Permanently delete this pass?')">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit"
+                                                    class="action-link danger-link">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            No gate pass requests found.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

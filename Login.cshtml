@@ -1,0 +1,93 @@
+﻿@model GateFlow.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Student Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <title>GateFlow | Login</title>
+    <link rel="stylesheet"
+          href="~/css/gateflow-auth.css" />
+</head>
+<body>
+    <div class="auth-page">
+
+        <div class="brand-panel">
+            <div class="brand-logo">GF<span>.</span></div>
+
+            <div class="brand-content">
+                <span class="eyebrow">WELCOME BACK</span>
+                <h1>Move freely.<br /><em>Stay connected.</em></h1>
+                <p>
+                    Access your campus gate passes,
+                    check approval status, and manage requests.
+                </p>
+            </div>
+
+            <div class="brand-footer">
+                GATEFLOW / SECURE CAMPUS ACCESS
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <div class="form-container login-container">
+
+                <span class="form-tag">STUDENT ACCESS</span>
+                <h2>Welcome back</h2>
+                <p class="form-subtitle">
+                    Sign in to your GateFlow account.
+                </p>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="success-message">
+                        @TempData["Success"]
+                    </div>
+                }
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="error-text"></div>
+
+                    <div class="field">
+                        <label asp-for="Email">Email Address</label>
+                        <input asp-for="Email"
+                               placeholder="student@example.com" />
+                        <span asp-validation-for="Email"
+                              class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label asp-for="Password">Password</label>
+                        <input asp-for="Password"
+                               placeholder="Enter your password" />
+                        <span asp-validation-for="Password"
+                              class="error-text"></span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        Sign In &rarr;
+                    </button>
+                </form>
+
+                <p class="switch-text">
+                    New to GateFlow?
+                    <a asp-controller="Account"
+                       asp-action="Register">Create account</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

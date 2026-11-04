@@ -1,0 +1,75 @@
+﻿@model GateFlow.ViewModels.GatePassFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Gate Pass";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="page-heading">
+    <span class="eyebrow">UPDATE REQUEST</span>
+    <h1>Edit Gate Pass #GF-@Model.PassId</h1>
+    <p>Make changes to your pending gate pass request.</p>
+</div>
+
+<div class="form-card">
+
+    <form asp-controller="GatePass"
+          asp-action="Edit"
+          asp-route-id="@Model.PassId"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="PassId" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="validation-error"></div>
+
+        <div class="field">
+            <label asp-for="Reason">Reason</label>
+            <textarea asp-for="Reason" rows="4"></textarea>
+            <span asp-validation-for="Reason"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="OutDate">Exit Date</label>
+                <input asp-for="OutDate"
+                       type="date"
+                       asp-format="{0:yyyy-MM-dd}" />
+                <span asp-validation-for="OutDate"
+                      class="validation-error"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="OutTime">Exit Time</label>
+                <input asp-for="OutTime" type="time" />
+                <span asp-validation-for="OutTime"
+                      class="validation-error"></span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="ExpectedReturnTime">
+                Expected Return
+            </label>
+            <input asp-for="ExpectedReturnTime"
+                   type="datetime-local"
+                   asp-format="{0:yyyy-MM-ddTHH:mm}" />
+            <span asp-validation-for="ExpectedReturnTime"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-actions">
+            <a asp-action="MyPasses"
+               class="btn-secondary">Back</a>
+
+            <button type="submit" class="btn-primary">
+                Save Changes →
+            </button>
+        </div>
+
+    </form>
+</div>
+

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<gateflow.Models.User>
+
+@{
+    ViewData["Title"] = "Database Test";
+}
+
+<h2>GateFlow - Database Connection Test</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>User ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.UserId</td>
+            <td>@user.FullName</td>
+            <td>@user.Email</td>
+            <td>@user.Role</td>
+            <td>@user.Department</td>
+        </tr>
+    }
+</table>
+

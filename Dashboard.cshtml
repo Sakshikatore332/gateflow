@@ -1,0 +1,136 @@
+﻿@model GateFlow.ViewModels.StudentDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="welcome-banner">
+    <div>
+        <span class="eyebrow">YOUR CAMPUS COMPANION</span>
+        <h1>Hello, @Model.StudentName 👋</h1>
+        <p>
+            Manage your gate passes and track your
+            campus exit requests in one place.
+        </p>
+
+        <a asp-controller="GatePass"
+           asp-action="Apply"
+           class="banner-btn">
+            + Request Gate Pass
+        </a>
+    </div>
+
+    <div class="banner-symbol">G.</div>
+</div>
+
+<div class="section-heading">
+    <h2>Pass Overview</h2>
+    <span>Live request statistics</span>
+</div>
+
+<div class="stats-grid">
+
+    <a asp-controller="GatePass"
+       asp-action="MyPasses"
+       class="stat-card">
+        <div class="stat-icon total">▤</div>
+        <span>Total Requests</span>
+        <h2>@Model.TotalPasses</h2>
+        <small>All your gate passes</small>
+    </a>
+
+    <a asp-controller="GatePass"
+       asp-action="MyPasses"
+       asp-route-status="Pending"
+       class="stat-card">
+        <div class="stat-icon pending">◷</div>
+        <span>Pending</span>
+        <h2>@Model.PendingPasses</h2>
+        <small>Awaiting approval</small>
+    </a>
+
+    <a asp-controller="GatePass"
+       asp-action="MyPasses"
+       asp-route-status="Approved"
+       class="stat-card">
+        <div class="stat-icon approved">✓</div>
+        <span>Approved</span>
+        <h2>@Model.ApprovedPasses</h2>
+        <small>Permission granted</small>
+    </a>
+
+    <a asp-controller="GatePass"
+       asp-action="MyPasses"
+       asp-route-status="Rejected"
+       class="stat-card">
+        <div class="stat-icon rejected">×</div>
+        <span>Rejected</span>
+        <h2>@Model.RejectedPasses</h2>
+        <small>Requests not approved</small>
+    </a>
+
+</div>
+
+<div class="section-heading">
+    <h2>Recent Gate Passes</h2>
+
+    <a asp-controller="GatePass"
+       asp-action="MyPasses"
+       class="text-link">
+        View All →
+    </a>
+</div>
+
+<div class="table-card">
+    <div class="table-scroll">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Pass ID</th>
+                    <th>Reason</th>
+                    <th>Exit Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RecentPasses.Any())
+                {
+                    foreach (var pass in Model.RecentPasses)
+                    {
+                        <tr>
+                            <td>#GF-@pass.PassId</td>
+                            <td>@pass.Reason</td>
+                            <td>@pass.OutDate.ToString("dd MMM yyyy")</td>
+                            <td>
+                                <span class="status @pass.Status.ToLower()">
+                                    @pass.Status
+                                </span>
+                            </td>
+                            <td>
+                                <a asp-controller="GatePass"
+                                   asp-action="Details"
+                                   asp-route-id="@pass.PassId"
+                                   class="table-link">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            No gate passes yet.
+                            Apply for your first gate pass!
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

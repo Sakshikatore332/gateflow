@@ -1,0 +1,71 @@
+﻿@model GateFlow.ViewModels.AdminStudentEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Student";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-heading">
+    <span class="eyebrow">STUDENT MANAGEMENT</span>
+    <h1>Edit Student #ST-@Model.UserId</h1>
+    <p>Update student account information.</p>
+</div>
+
+<div class="admin-form-card">
+    <form asp-action="EditStudent"
+          asp-route-id="@Model.UserId"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="UserId" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="validation-error"></div>
+
+        <div class="form-field">
+            <label asp-for="FullName">Full Name</label>
+            <input asp-for="FullName" />
+            <span asp-validation-for="FullName"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-field">
+            <label asp-for="Email">Email Address</label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-field">
+            <label asp-for="Department">Department</label>
+            <select asp-for="Department">
+                <option value="">Select Department</option>
+                <option value="MCA">MCA</option>
+                <option value="MBA">MBA</option>
+                <option value="BCA">BCA</option>
+                <option value="BBA">BBA</option>
+                <option value="Engineering">Engineering</option>
+            </select>
+            <span asp-validation-for="Department"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-field">
+            <label asp-for="Phone">Phone Number</label>
+            <input asp-for="Phone" />
+            <span asp-validation-for="Phone"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-actions">
+            <a asp-action="Students"
+               class="btn-outline">Back</a>
+
+            <button type="submit" class="btn-primary">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+

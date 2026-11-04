@@ -1,0 +1,42 @@
+﻿@model GateFlow.ViewModels.AdminRejectViewModel
+
+@{
+    ViewData["Title"] = "Reject Gate Pass";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-heading">
+    <span class="eyebrow">REQUEST REVIEW</span>
+    <h1>Reject Gate Pass #GF-@Model.PassId</h1>
+    <p>Provide a reason before rejecting this request.</p>
+</div>
+
+<div class="admin-form-card">
+    <form asp-action="Review" method="post">
+
+        @Html.AntiForgeryToken()
+        <input asp-for="PassId" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="validation-error"></div>
+
+        <div class="form-field">
+            <label asp-for="Remarks">Rejection Reason</label>
+            <textarea asp-for="Remarks"
+                      rows="5"
+                      placeholder="Enter the reason for rejection"></textarea>
+            <span asp-validation-for="Remarks"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-actions">
+            <a asp-action="PendingRequests"
+               class="btn-outline">Back</a>
+
+            <button type="submit" class="btn-danger">
+                Confirm Rejection
+            </button>
+        </div>
+    </form>
+</div>
+

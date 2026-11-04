@@ -1,0 +1,91 @@
+﻿@model GateFlow.ViewModels.GatePassFormViewModel
+
+@{
+    ViewData["Title"] = "Apply Gate Pass";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="page-heading">
+    <div>
+        <span class="eyebrow">NEW REQUEST</span>
+        <h1>Gate Pass Application</h1>
+        <p>Fill in your details to request campus exit permission.</p>
+    </div>
+</div>
+
+<div class="form-card">
+
+    <div class="form-card-header">
+        <span class="form-step">01</span>
+        <div>
+            <h2>Exit Information</h2>
+            <p>Provide your reason and expected timings.</p>
+        </div>
+    </div>
+
+    <form asp-controller="GatePass"
+          asp-action="Apply"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly"
+             class="validation-error"></div>
+
+        <div class="field">
+            <label asp-for="Reason">Reason for Leaving</label>
+            <textarea asp-for="Reason"
+                      rows="4"
+                      placeholder="Explain why you need to leave campus"></textarea>
+            <span asp-validation-for="Reason"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="OutDate">Exit Date</label>
+                <input asp-for="OutDate"
+                       type="date"
+                       asp-format="{0:yyyy-MM-dd}" />
+                <span asp-validation-for="OutDate"
+                      class="validation-error"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="OutTime">Exit Time</label>
+                <input asp-for="OutTime" type="time" />
+                <span asp-validation-for="OutTime"
+                      class="validation-error"></span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="ExpectedReturnTime">
+                Expected Return Date & Time
+            </label>
+            <input asp-for="ExpectedReturnTime"
+                   type="datetime-local"
+                   asp-format="{0:yyyy-MM-ddTHH:mm}" />
+            <span asp-validation-for="ExpectedReturnTime"
+                  class="validation-error"></span>
+        </div>
+
+        <div class="info-note">
+            Your request will be sent to the college admin.
+            You can edit or cancel it while it is pending.
+        </div>
+
+        <div class="form-actions">
+            <a asp-controller="Student"
+               asp-action="Dashboard"
+               class="btn-secondary">
+                Cancel
+            </a>
+
+            <button type="submit" class="btn-primary">
+                Submit Request →
+            </button>
+        </div>
+    </form>
+</div>
+

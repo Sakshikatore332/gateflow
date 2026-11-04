@@ -1,0 +1,78 @@
+﻿@model IEnumerable<gateflow.Models.GatePass>
+
+@{
+    ViewData["Title"] = "All Gate Passes";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string selected = ViewBag.SelectedStatus ?? "";
+}
+
+<div class="page-heading">
+    <span class="eyebrow">CAMPUS RECORDS</span>
+    <h1>All Gate Passes</h1>
+    <p>View requests across all students.</p>
+</div>
+
+<div class="filter-row">
+    <a asp-action="AllPasses"
+       class="filter-link @(selected == "" ? "selected" : "")">
+        All
+    </a>
+
+    @foreach (var s in new[]
+        { "Pending", "Approved", "Rejected", "Cancelled" })
+    {
+        <a asp-action="AllPasses"
+           asp-route-status="@s"
+           class="filter-link @(selected == s ? "selected" : "")">
+            @s
+        </a>
+    }
+</div>
+
+<div class="admin-table-card">
+    <div class="table-scroll">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Pass ID</th>
+                    <th>Student</th>
+                    <th>Department</th>
+                    <th>Reason</th>
+                    <th>Exit Date</th>
+                    <th>Return</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pass in Model)
+                {
+                    <tr>
+                        <td>#GF-@pass.PassId</td>
+                        <td>@pass.User.FullName</td>
+                        <td>@pass.User.Department</td>
+                        <td>@pass.Reason</td>
+                        <td>@pass.OutDate.ToString("dd MMM yyyy")</td>
+                        <td>
+                            @pass.ExpectedReturnTime.ToString("dd MMM, hh:mm tt")
+                        </td>
+                        <td>
+                            <span class="status @pass.Status.ToLower()">
+                                @pass.Status
+                            </span>
+                        </td>
+                    </tr>
+                }
+
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="empty-cell">
+                            No gate passes found.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

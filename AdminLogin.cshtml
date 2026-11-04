@@ -1,0 +1,84 @@
+﻿@model GateFlow.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Admin Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <title>GateFlow | Admin Login</title>
+    <link rel="stylesheet"
+          href="~/css/gateflow-auth.css" />
+</head>
+<body>
+    <div class="auth-page">
+        <div class="brand-panel">
+            <div class="brand-logo">GF<span>.</span></div>
+
+            <div class="brand-content">
+                <span class="eyebrow">ADMIN CONTROL CENTER</span>
+                <h1>Campus access.<br /><em>Under control.</em></h1>
+                <p>
+                    Review student requests, manage permissions,
+                    and oversee campus movement.
+                </p>
+            </div>
+
+            <div class="brand-footer">
+                GATEFLOW / ADMINISTRATION
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <div class="form-container login-container">
+                <span class="form-tag">AUTHORIZED ACCESS</span>
+                <h2>Admin Sign In</h2>
+                <p class="form-subtitle">
+                    Enter your administrator credentials.
+                </p>
+
+                <form asp-controller="Account"
+                      asp-action="AdminLogin"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="error-text"></div>
+
+                    <div class="field">
+                        <label asp-for="Email">Admin Email</label>
+                        <input asp-for="Email"
+                               placeholder="admin@example.com" />
+                        <span asp-validation-for="Email"
+                              class="error-text"></span>
+                    </div>
+
+                    <div class="field">
+                        <label asp-for="Password">Password</label>
+                        <input asp-for="Password"
+                               placeholder="Enter password" />
+                        <span asp-validation-for="Password"
+                              class="error-text"></span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        Access Dashboard →
+                    </button>
+                </form>
+
+                <p class="switch-text">
+                    Student?
+                    <a asp-controller="Account"
+                       asp-action="Login">Student Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

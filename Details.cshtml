@@ -1,0 +1,83 @@
+﻿@model gateflow.Models.GatePass
+
+@{
+    ViewData["Title"] = "Gate Pass Details";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="page-heading heading-flex">
+    <div>
+        <span class="eyebrow">PASS INFORMATION</span>
+        <h1>Gate Pass #GF-@Model.PassId</h1>
+        <p>Complete details of your request.</p>
+    </div>
+
+    <span class="status @Model.Status.ToLower()">
+        @Model.Status
+    </span>
+</div>
+
+<div class="form-card">
+
+    <div class="form-card-header">
+        <span class="form-step">GF</span>
+        <div>
+            <h2>Gate Pass Information</h2>
+            <p>Request reference #GF-@Model.PassId</p>
+        </div>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span>Pass ID</span>
+            <strong>#GF-@Model.PassId</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Status</span>
+            <strong>@Model.Status</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Exit Date</span>
+            <strong>@Model.OutDate.ToString("dd MMM yyyy")</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Exit Time</span>
+            <strong>@Model.OutTime.ToString("HH:mm")</strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Expected Return</span>
+            <strong>
+                @Model.ExpectedReturnTime.ToString("dd MMM yyyy, hh:mm tt")
+            </strong>
+        </div>
+
+        <div class="detail-item">
+            <span>Submitted On</span>
+            <strong>
+                @Model.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")
+            </strong>
+        </div>
+
+        <div class="detail-item full-width">
+            <span>Reason for Leaving</span>
+            <strong>@Model.Reason</strong>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="MyPasses"
+           class="btn-secondary">← Back to My Passes</a>
+
+        @if (Model.Status == "Pending")
+        {
+            <a asp-action="Edit"
+               asp-route-id="@Model.PassId"
+               class="btn-primary">Edit Request</a>
+        }
+    </div>
+</div>
+
